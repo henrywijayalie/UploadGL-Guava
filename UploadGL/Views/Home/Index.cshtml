@@ -1,31 +1,99 @@
-﻿@{
-    ViewBag.Title = "Home Page";
+﻿@model string
+@{
+    if (Session["username"] == null)
+    {
+        Response.Redirect("~/Account/Index");
+    }
+
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h3>PT. BANK JAGO INDONESIA</h3>
+<p>
+    Console Log Output
+</p>
+@*<script type="text/javascript" src="@Url.Content("~/Scripts/jquery.1.9.1.min.js")"></script>*@
+<div class=" text-right">
+
+    <a class="btn btn-success" href="@Url.Action("GenerateReport")"><i class='fa-solid fa-file'></i> Generate Manual Report</a>
+    <a class='btn btn-danger' onclick=Delete()><i class="fa-solid fa-trash"></i> Clear Log Console</a>
+    <a class="btn btn-primary" href="@Url.Action("DownloadLog")"><i class="fa-solid fa-file-arrow-down"></i> Download Log Files</a>
+    @* <a class="btn btn-danger" id="btnUpload" href="@Url.Action("ClearLog")">Clear Console Log</a>*@
+</div>
+<p></p>
+<pre id="buffer" data-url="@(Url.Action("Buffer", "Home"))">@Model</pre>
+<script>
+    var objDiv = document.getElementById("buffer");
+    objDiv.scrollTop = objDiv.scrollHeight;
+</script>
+@using (Html.BeginForm())
+{
+
+    <div class="text-right">
+        <a class="btn btn-primary" style="float:left;" href="@Url.Action("List","ScheduleTask")"><i class='fa-solid fa-calendar'></i> Upload Scheduler </a>
+        @* <a class="btn btn-default" href="@Url.Content("~/hangfire")">Dashboard</a>*@
+
+
+        <a class="btn btn-success" style="float:left; margin-left: 100px;" href="@Url.Action("List","GoodFile")"><i class="fa-regular fa-circle-check"></i> File Sukses Report</a>
+        <a class="btn btn-warning" style="float:left; margin-left: 5px;" href="@Url.Action("List","BadFile")"><i class="fa-regular fa-circle-xmark"></i> File Gagal Report</a>
+
+        @* <a class="btn btn-danger" href="@Url.Action("ClearFileUpload")">Clear Upload File</a>*@
+
+        <a class="btn btn-info" style="float:left; margin-left: 5px;" href="@Url.Action("ClientUpload")"><i class="fa-solid fa-file-arrow-up"></i> Upload Files</a>
+        @*  <button class="btn btn-primary" type="submit">Manual Job Proses Upload</button>*@
+        <a class='btn btn-primary' style="float:left; margin-left: 5px;" onclick=CreateJob()><i class='fa-solid fa-exclamation-circle'></i> Manual Job Proses Upload</a>
+    </div>
 }
 
-<div class="jumbotron">
-    <h1>ASP.NET</h1>
-    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-    <p><a href="https://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
-</div>
 
-<div class="row">
-    <div class="col-md-4">
-        <h2>Getting started</h2>
-        <p>
-            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
-            for enjoyable, agile development.
-        </p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
-    </div>
-</div>
+<script>
+    $(document).ready(function () {
+
+        $('#btnUpload').click(function () {
+            Delete();
+        });
+
+    });
+
+    function CreateJob() {
+        if(confirm('Are you sure want to proceed Manual Process Job ?'))
+        {
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("Create", "Home")' ,
+                success: function (data) {
+                    if (data.success)
+                    {
+                        dataTable.ajax.reload();
+                        $.notify(data.message, {
+                            globalPosition: "top center",
+                            className: "success"
+                        });
+                    }
+                }
+            });
+        }
+    }
+
+ function Delete() {
+        if(confirm('Are You Sure to Clear this Log Console ?'))
+        {
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("ClearLog", "Home")' ,
+                success: function (data) {
+                    if (data.success)
+                    {
+                        dataTable.ajax.reload();
+                        $.notify(data.message, {
+                            globalPosition: "top center",
+                            className: "success"
+                        });
+                    }
+                }
+
+            });
+        }
+    }
+
+</script>

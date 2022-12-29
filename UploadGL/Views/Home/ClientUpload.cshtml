@@ -1,0 +1,134 @@
+﻿
+@model UploadGL.Models.FileListModel
+@{
+
+    if (Session["username"] == null)
+    {
+        Response.Redirect("~/Account/Index");
+    }
+
+    ViewBag.Title = "Upload File GL";
+}
+
+@*<script type="text/javascript" src="@Url.Content(" ~ /Scripts/jquery.1.9.1.min.js")"></script>*@
+
+@using (Html.BeginForm())
+{
+    @* @Html.AntiForgeryToken()*@
+    <p>
+        @Html.ActionLink("( Back to Console )", "Index")
+    </p>
+
+    <h4>Upload File</h4>
+    <hr />
+    <p>
+        File yang akan diupload merupakan file berekstensi .csv, setiap file yang akan diupload wajib memiliki no batch yang berbeda dengan file lainnya dan baris record data tidak melebihi 99,999 record.
+    </p>
+
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.files, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @* @Html.TextBoxFor(model => model.files, "", new { @type = "file", @multiple = "multiple" , @id = "uploadFile" })*@
+                @Html.TextBoxFor(model => model.files, "", new { @type = "file", @id = "uploadFile" })
+                @Html.ValidationMessageFor(model => model.files, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <br />
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <a href="#" id="btnUpload" class="btn btn-primary">Upload File</a>
+
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10 text-success">
+                <div id="success"></div>
+            </div>
+        </div>
+
+    </div>
+}
+
+
+<script>
+    var _validFileExtensions = [".csv"];
+    $(document).ready(function () {
+
+        $('#btnUpload').click(function () {
+            var file = document.querySelector("#uploadFile");
+            if (/\.(csv)$/i.test(file.files[0].name) === false) {
+                alert("File upload must be types .csv");
+                return false;
+            } else {
+                UploadFile($('#uploadFile')[0].files);
+            }
+        });
+    });
+
+    function UploadFileChunk(Chunk, FileName) {
+        var FD = new FormData();
+        FD.append('files', Chunk, FileName);
+
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("UploadFile")',
+            contentType: false,
+            processData: false,
+            data: FD,
+            success: function (data) {
+                if (data.success) {
+                    $.notify(data.message, {
+                        globalPosition: "top center",
+                        className: "success"
+                    });
+                } else {
+                    $.notify(data.message, {
+                        globalPosition: "top center",
+                        className: "error"
+                    });
+                }
+            },
+            error: function () {
+                console.log("ERROR");
+                handleError(arguments[0].responseText);
+            }
+        });
+    }
+
+    function UploadFile(TargetFile) {
+        // create array to store the buffer chunks
+        var FileChunk = [];
+        // the file object itself that we will work with
+        var file = TargetFile[0];
+        // set up other initial vars
+        var MaxFileSizeMB = 1;
+        var BufferChunkSize = MaxFileSizeMB * (1024 * 1024);
+        var ReadBuffer_Size = 1024;
+        var FileStreamPos = 0;
+        // set the initial chunk length
+        var EndPos = BufferChunkSize;
+        var Size = file.size;
+
+        // add to the FileChunk array until we get to the end of the file
+        while (FileStreamPos < Size) {
+            // "slice" the file from the starting position/offset, to  the required length
+            FileChunk.push(file.slice(FileStreamPos, EndPos));
+            FileStreamPos = EndPos; // jump by the amount read
+            EndPos = FileStreamPos + BufferChunkSize; // set next chunk length
+        }
+        // get total number of "files" we will be sending
+        var TotalParts = FileChunk.length;
+        var PartCount = 0;
+        // loop through, pulling the first item from the array each time and sending it
+        while (chunk = FileChunk.shift()) {
+            PartCount++;
+            // file name convention
+            var FilePartName = file.name + ".part_" + PartCount + "." + TotalParts;
+            // send the file
+            UploadFileChunk(chunk, FilePartName);
+        }
+    }
+</script>

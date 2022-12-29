@@ -1,0 +1,61 @@
+﻿
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Login</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link href="~/Content/normalize.css" rel="stylesheet" type="text/css">
+    <link href="~/Content/main.css" rel="stylesheet" type="text/css">
+    <link href="~/Content/sign-in.css" rel="stylesheet" type="text/css">
+    <link href="~/Content/rulycon.css" rel="stylesheet" type="text/css">
+
+</head>
+<body>
+
+
+    <section>
+        <div id="left-part">
+            <p>
+                <header>
+                    <h4>Upload GL</h4>
+                </header>
+            </p>
+            <img src="~/Content/Images/logo.png" alt="Bank Jago" width="50" height="30">
+            <p>
+                <small>© 2022 <span>PT. Warna Bintang Kreasi</span>.</small>
+            </p>
+        </div>
+        <div id="right-part">
+
+            <form method="post" action="@Url.Action("Login", "Account")" class="stacked-form">
+
+                <header>
+                    <h4>Sign In  </h4>
+                </header>
+
+                <div class="form-group">
+                    <span id="input-username"></span>
+                    <input name="username" type="text" class="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all" role="textbox" aria-disabled="false" aria-readonly="false" placeholder="Username">
+                </div>
+                <div class="form-group">
+                    <span id="input-password"></span>
+                    <input name="password" type="password" class="ui-inputfield ui-password ui-widget ui-state-default ui-corner-all ui-state-hover" role="textbox" aria-disabled="false" aria-readonly="false" placeholder="Password">
+                </div>
+
+                <div class="form-group">
+                    <button type="submit" value="" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only btn-signin"> <span class="ui-button-text ui-c">Sign In</span></button>
+                </div>
+                <p>
+                    @ViewBag.error
+                </p>
+            </form>
+        </div>
+    </section>
+</body>
+</html>

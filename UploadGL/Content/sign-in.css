@@ -1,0 +1,395 @@
+﻿/* =============================================
+SIGN IN
+============================================= */
+
+/* PRIMARY COLORS */
+/* SECONDARY COLORS */
+/* NEUTRAL COLORS */
+
+::-webkit-input-placeholder {
+    color: #F6FDFC;
+    font-style: normal;
+}
+
+::-moz-placeholder {
+    color: #F6FDFC;
+    font-style: normal;
+}
+
+:-ms-input-placeholder {
+    color: #F6FDFC;
+    font-style: normal;
+}
+
+:-moz-placeholder {
+    color: #F6FDFC;
+    font-style: normal;
+}
+
+html, body {
+    height: 100%;
+}
+
+body {
+    background-color: #083854;
+    background-image: radial-gradient(ellipse at top, #083854, #03131c);
+    background-repeat: no-repeat;
+    color: #F6FDFC;
+}
+
+section {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    width: 80%;
+}
+
+@media screen and (min-width: 1024px) {
+    section {
+        width: 66.67%;
+    }
+}
+
+p, input, button {
+    font-size: 12pt;
+}
+
+p {
+    margin-bottom: 0;
+}
+
+small span {
+    font-family: "diodrum-semibold", sans-serif;
+}
+
+input {
+    padding-left: 48px;
+}
+
+@media screen and (min-width: 768px) {
+    input, button {
+        max-width: 280px;
+    }
+}
+
+h4 {
+    text-transform: none;
+}
+
+.form-group {
+    position: relative;
+}
+
+    .form-group span:before {
+        position: absolute;
+        content: "";
+        left: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        display: inline-block;
+        width: 16px;
+        height: 16px;
+        background-size: 100%;
+    }
+/*
+#input-username:before {
+  background-image: url("../img/sign-in-icon-username.svg"); }
+
+#input-password:before {
+  background-image: url("../img/sign-in-icon-password.svg"); }*/
+
+#left-part, #right-part {
+    width: 100%;
+    vertical-align: middle;
+}
+
+@media screen and (min-width: 768px) {
+    #left-part, #right-part {
+        width: 50%;
+        padding: 24px 60px;
+    }
+}
+
+#left-part {
+    text-align: center;
+}
+
+    #left-part img {
+        width: 120px;
+        margin-bottom: 16px;
+    }
+
+@media screen and (min-width: 768px) {
+    #left-part {
+        text-align: right;
+    }
+}
+
+@media screen and (min-width: 768px) {
+    #right-part {
+        border-left: 1px solid rgba(255, 255, 255, 0.12);
+    }
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus {
+    -webkit-text-fill-color: #ffffff;
+    -webkit-box-shadow: 0 0 0px 1000px #26495d inset !important;
+    transition: background-color 5000s ease-in-out 0s;
+}
+
+.ui-inputfield.ui-inputtext, .ui-inputfield.ui-password, .ui-inputfield.ui-inputtextarea, .ui-inputfield.ui-inputmask, .ui-inputfield.hasDatepicker {
+    width: 100%;
+    margin-bottom: 16px;
+    padding: 8px 12px;
+    padding-left: 48px;
+    font-size: 12pt;
+    background-color: rgba(255, 255, 255, 0.08);
+    border-radius: 4px;
+    color: #ffffff;
+    border: 1px solid rgba(19, 137, 123, 0.24);
+    transition: all .2s ease-out;
+    text-shadow: none;
+    box-shadow: none;
+}
+
+    .ui-inputfield.ui-inputtext.ui-state-hover, .ui-inputfield.ui-inputtext.ui-state-focus, .ui-inputfield.ui-password.ui-state-hover, .ui-inputfield.ui-password.ui-state-focus, .ui-inputfield.ui-inputtextarea.ui-state-hover, .ui-inputfield.ui-inputtextarea.ui-state-focus, .ui-inputfield.ui-inputmask.ui-state-hover, .ui-inputfield.ui-inputmask.ui-state-focus, .ui-inputfield.hasDatepicker.ui-state-hover, .ui-inputfield.hasDatepicker.ui-state-focus {
+        border-color: #13897B;
+        box-shadow: none;
+    }
+
+.ui-inputfield.ui-state-disabled {
+    font-family: "AdobeClean-Regular", sans-serif;
+    font-size: 11pt;
+    box-shadow: none;
+    border: 1px solid rgba(117, 138, 154, 0.24);
+    padding: 10px 12px 8px;
+    background: #ffffff;
+    color: #758a9a;
+    line-height: 100%;
+    opacity: .48;
+}
+
+    .ui-inputfield.ui-state-disabled:hover {
+        cursor: not-allowed;
+    }
+
+.ui-inputfield.data-edited {
+    color: #e83665;
+    border-color: #e83665;
+}
+
+.ui-button .ui-icon {
+    display: none;
+}
+
+.ui-button.ui-state-default {
+    position: relative;
+    font-family: "diodrum-regular", sans-serif;
+    font-size: .88rem;
+    text-transform: uppercase;
+    background: #FF6600;
+    color: #ffffff;
+    border: none;
+    padding: 8px 36px;
+    border-radius: 50em;
+    transition: all .2s ease-out;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.24);
+}
+
+.ui-button .ui-button-text {
+    padding: 0;
+    text-shadow: none;
+    font-size: 12pt;
+    font-family: "diodrum-regular", sans-serif;
+}
+
+.btn-signin {
+    background: #FF6600;
+    color: #ffffff;
+    border: none;
+}
+
+.ui-dialog {
+    background: rgba(255, 255, 255, 0.92);
+    border: none;
+    border-radius: 6px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.16);
+    min-width: 640px;
+    max-width: 1024px;
+    position: absolute;
+    left: 50% !important;
+    top: 50% !important;
+    transform: translateX(-50%) translateY(-50%);
+    /*  .ui-datatable {
+      table {
+        width: auto;
+      }
+    }*/
+}
+
+    .ui-dialog .ui-dialog-content {
+        padding: 8px 96px;
+        /*padding: 0;*/
+    }
+
+        .ui-dialog .ui-dialog-content form {
+            margin: 0;
+            border: none;
+        }
+
+            .ui-dialog .ui-dialog-content form .form-group {
+                margin-bottom: 0px;
+            }
+
+                .ui-dialog .ui-dialog-content form .form-group:last-child {
+                    margin-bottom: 0;
+                }
+
+                .ui-dialog .ui-dialog-content form .form-group button {
+                    margin-right: 0px;
+                }
+
+                    .ui-dialog .ui-dialog-content form .form-group button:last-child {
+                        margin-right: 0;
+                    }
+
+    .ui-dialog .ui-dialog-titlebar {
+        padding: 16px 16px 8px;
+        background: transparent;
+        text-align: center;
+    }
+
+    .ui-dialog .ui-dialog-title {
+        font-family: "PFHandbookPro-Bold", sans-serif;
+        font-size: 16pt;
+        color: #777777;
+        text-shadow: none;
+        text-transform: uppercase;
+        margin: 0;
+        text-align: center;
+        float: none;
+    }
+
+    .ui-dialog .ui-dialog-titlebar-close, .ui-dialog .ui-dialog-titlebar-minimize, .ui-dialog .ui-dialog-titlebar-maximize {
+        border: none;
+        padding: 0;
+    }
+
+        .ui-dialog .ui-dialog-titlebar-close.ui-state-hover, .ui-dialog .ui-dialog-titlebar-close.ui-state-focus, .ui-dialog .ui-dialog-titlebar-minimize.ui-state-hover, .ui-dialog .ui-dialog-titlebar-minimize.ui-state-focus, .ui-dialog .ui-dialog-titlebar-maximize.ui-state-hover, .ui-dialog .ui-dialog-titlebar-maximize.ui-state-focus {
+            background: transparent;
+            box-shadow: none;
+            border: none;
+        }
+
+        .ui-dialog .ui-dialog-titlebar-close .ui-icon, .ui-dialog .ui-dialog-titlebar-minimize .ui-icon, .ui-dialog .ui-dialog-titlebar-maximize .ui-icon {
+            background-image: url("../img/jquery-ui-spritesheet-cement.png");
+        }
+
+    .ui-dialog .ui-dialog-buttonpane form {
+        text-align: center;
+    }
+
+#main-section .ui-dialog .form-group:last-child {
+    margin-top: 28px;
+}
+
+.ui-dialog-mask {
+    background: rgba(0, 0, 0, 0.8);
+    opacity: 1;
+}
+
+@media screen and (max-width: 480px) {
+    .ui-dialog {
+        min-width: 320px;
+    }
+}
+
+.ui-growl-item-container {
+    padding: 8px 12px;
+    background: rgba(255, 255, 255, 0.92);
+    border: none;
+    border-radius: 6px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+}
+
+.ui-growl-item {
+    color: #758a9a;
+}
+
+    .ui-growl-item .ui-growl-icon-close {
+        background-image: url("../img/jquery-ui-spritesheet-cement.png");
+        top: 12px;
+        right: 12px;
+    }
+
+    .ui-growl-item .ui-growl-image {
+        display: none;
+    }
+
+    .ui-growl-item .ui-growl-message {
+        float: none;
+    }
+
+        .ui-growl-item .ui-growl-message .ui-growl-title {
+            color: #feb033;
+            text-shadow: none;
+        }
+
+        .ui-growl-item .ui-growl-message p {
+            font-size: 10pt;
+            line-height: 140%;
+            text-shadow: none;
+        }
+
+.ui-message.ui-widget {
+    margin: 4px 0 0;
+    padding: 8px 12px;
+}
+
+.ui-message.ui-message-error {
+    background: rgba(232, 54, 101, 0.04);
+}
+
+    .ui-message.ui-message-error span {
+        color: #e83665;
+    }
+
+.ui-message.ui-message-info {
+    background: rgba(0, 138, 224, 0.04);
+}
+
+    .ui-message.ui-message-info span {
+        color: #008ae0;
+    }
+
+.ui-message.ui-message-warn {
+    background: rgba(254, 176, 51, 0.04);
+}
+
+    .ui-message.ui-message-warn span {
+        color: #feb033;
+    }
+
+.ui-message > span {
+    vertical-align: bottom;
+    display: inline-block;
+}
+
+    .ui-message > span:first-child {
+        float: none;
+        display: none;
+    }
+
+    .ui-message > span:last-child {
+        font-size: 10pt;
+        margin-left: 0;
+    }
+
+/*# sourceMappingURL=sign-in.css.map */

@@ -22,3 +22,15 @@ select,
 textarea {
     max-width: 280px;
 }
+
+#buffer {
+    height: 300px;
+    background-color: #fbfaff
+}
+
+td.adminData {
+    select, input, textarea, .uneditable-input, .input-append, .input-prepend
+    {
+        margin-bottom: 0 !important;
+    }
+}
