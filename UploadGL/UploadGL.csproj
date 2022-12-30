@@ -74,6 +74,12 @@
     <Reference Include="Microsoft.Owin, Version=4.2.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Owin.4.2.2\lib\net45\Microsoft.Owin.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Owin.Host.SystemWeb, Version=4.2.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Host.SystemWeb.4.2.2\lib\net45\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
+    </Reference>
+    <Reference Include="NCrontab.Signed, Version=3.3.2.0, Culture=neutral, PublicKeyToken=5247b4370afff365, processorArchitecture=MSIL">
+      <HintPath>..\packages\NCrontab.Signed.3.3.2\lib\net35\NCrontab.Signed.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.13.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -155,31 +161,45 @@
     <Compile Include="Controllers\GoodFileController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ParameterController.cs" />
+    <Compile Include="Controllers\ScheduleTaskController.cs" />
     <Compile Include="Controllers\SettingController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\CommonHelper.cs" />
+    <Compile Include="Helpers\ConnectionHelper.cs" />
     <Compile Include="Helpers\ConversionExtensions.cs" />
+    <Compile Include="Helpers\CronExpression.cs" />
     <Compile Include="Helpers\Error.cs" />
     <Compile Include="Helpers\Guard.cs" />
+    <Compile Include="Helpers\HangfireAuthorizationFilter.cs" />
     <Compile Include="Helpers\Logger.cs" />
+    <Compile Include="MainProcess.cs" />
     <Compile Include="Helpers\MimeTypes.cs" />
     <Compile Include="Helpers\ParameterJsonHelper.cs" />
     <Compile Include="Helpers\SettingJsonHelper.cs" />
     <Compile Include="Helpers\StringEncryptor.cs" />
     <Compile Include="Helpers\StringExtension.cs" />
+    <Compile Include="Helpers\TextBuffer.cs" />
+    <Compile Include="Helpers\TextBufferLogProvider.cs" />
     <Compile Include="Helpers\UserJsonHelper.cs" />
     <Compile Include="Helpers\Utils.cs" />
     <Compile Include="Models\ExplorerModel.cs" />
     <Compile Include="Models\FlagUtil.cs" />
     <Compile Include="Models\ParameterModel.cs" />
+    <Compile Include="Models\ScheduleModel.cs" />
+    <Compile Include="Models\ScheduleTaskModel.cs" />
     <Compile Include="Models\SettingModel.cs" />
+    <Compile Include="Models\TbrpfModel.cs" />
     <Compile Include="Models\UserModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="..\.editorconfig">
+      <Link>.editorconfig</Link>
+    </Content>
     <None Include="App_Data\Flag.json" />
     <Content Include="App_Data\Setting.json" />
     <Content Include="App_Data\Parameter.json" />
@@ -267,6 +287,9 @@
     <Content Include="Views\GoodFile\List.cshtml" />
     <Content Include="Views\Home\ClientUpload.cshtml" />
     <Content Include="Scripts\notify.min.js" />
+    <Content Include="Views\ScheduleTask\FutureSchedules.cshtml" />
+    <Content Include="Views\ScheduleTask\List.cshtml" />
+    <Content Include="Views\ScheduleTask\SaveSetting.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="FileEOD\" />

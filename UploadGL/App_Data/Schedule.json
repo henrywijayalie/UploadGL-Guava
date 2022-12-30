@@ -1,6 +1,4 @@
-﻿[
-	{
-		"Proses": "Upload GL",
-		"Jadwal": "*/5 * * * *"
-	}
-]
+﻿{
+	"Proses": "Upload GL",
+	"Jadwal": "*/60 * * * *"
+}

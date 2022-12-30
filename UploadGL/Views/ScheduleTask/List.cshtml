@@ -1,0 +1,137 @@
+﻿@model UploadGL.Models.ScheduleTaskModel
+
+@{
+    if (Session["username"] == null)
+    {
+        Response.Redirect("~/Account/Index");
+    }
+
+    ViewBag.Title = "Upload GL Scheduler ";
+}
+
+@*@Html.AntiForgeryToken()*@
+@*<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>*@
+
+@*<script type="text/javascript" src="@Url.Content("/Scripts/jquery.1.9.1.min.js")"></script>*@
+@Html.ActionLink("( Back to Console )", "Index", "Home")
+
+@using (Html.BeginForm("SaveSetting", "ScheduleTask", FormMethod.Post))
+{
+    @* <a class="btn btn-primary" style="float: right;" href="@Url.Action("SaveSetting","ScheduleTask","0 * * * *")">Save </a>
+
+            <a href="javascript:void(0)" data-url="@Url.Action("SaveSetting")" class="btn btn-danger" style="float: right;" id="SaveSetting">
+                <i class="fa fa-trash-o"></i>&nbsp;
+                Save Setting
+            </a>
+        <button type="submit" value="" class="btn btn-primary"><i class="fa fa-check"></i>&nbsp;Save Setting</button>*@
+
+    <h4 style="margin-top:25px;">Setting Proses Upload Data GL Scheduler </h4>
+    <hr />
+    <table class="adminData">
+        <tr>
+            <td class="adminTitle">
+                @Html.LabelFor(model => model.CronExpression)
+            </td>
+            <td class="adminData">
+                @Html.EditorFor(model => model.CronExpression)
+                <button type="submit" value="" class="btn btn-primary">
+                    <i class="fa fa-sync"></i>
+                    <span>Save Setting</span>
+                </button>
+                <span><a href="https://crontab.guru">Visit crontab guru (https://crontab.guru/) cara setting CronExpression Schedule </a></span>
+            </td>
+        </tr>
+        @*
+            <tr>
+                <td class="adminTitle">&nbsp;</td>
+                <td class="adminData">
+                    <div class="muted">@T("Admin.System.ScheduleTasks.CronHelp", GenerateHelpUrl(HelpTopic.CronExpressions))</div>
+                </td>
+            </tr>*@
+        <tr>
+            <td class="adminTitle">&nbsp;</td>
+            <td class="adminData">
+                <div id="future-schedules"></div>
+            </td>
+        </tr>
+    </table>
+
+    <p>
+        @Html.Action("FutureSchedules", "ScheduleTask", new { expression = Model.CronExpression })
+    </p>
+}
+@*
+        <script src="~/Scripts/jquery-2.1.4.intellisense.js"></script>
+        <script src="~/Scripts/jquery-2.1.4.min.js"></script>
+        <script src="~/Scripts/jquery.validate.min.js"></script>
+        <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+        <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>*@
+
+<script type="text/javascript">
+
+    $(function () {
+
+        $('#CheckScheduleBtn').click(function () {
+        	var input = @Html.Raw(Json.Encode(Model.CronExpression));
+
+			$.ajax({
+				cache: false,
+				type: 'POST',
+				url: '@Url.Action("FutureSchedules")',
+                data: { expression: input },
+				success: function (data) {
+					$('#future-schedules').html(data);
+				},
+				error: function (xhr, ajaxOptions, thrownError) {
+				}
+			});
+        });
+
+
+        $('#SaveSetting').click(function () {
+
+        	var input = @Html.Raw(Json.Encode(Model.CronExpression));
+
+			$.ajax({
+				cache: false,
+				type: 'POST',
+				url: '@Url.Action("SaveSetting")',
+                data: { expression: input },
+				success: function (data) {
+					$('#future-schedules').html(data);
+				},
+				error: function (xhr, ajaxOptions, thrownError) {
+				}
+			});
+
+        });
+
+
+
+
+
+	});
+    @*
+     $(document).ready(function () {
+
+         $('#SaveSetting').click(function () {
+
+             var input = $(this);
+           $.ajax({
+				cache: false,
+				type: 'POST',
+				url: '@Url.Action("FutureSchedules")',
+				data: { expression: input.val() },
+				success: function (data) {
+					$('#future-schedules').html(data);
+				},
+				error: function (xhr, ajaxOptions, thrownError) {
+				}
+             });
+         });
+     });*@
+
+</script>
+
+
+

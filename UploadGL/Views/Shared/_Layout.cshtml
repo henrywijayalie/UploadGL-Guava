@@ -39,10 +39,10 @@
 
             </div>
             @*<div class="navbar-brand navbar-right">
-                @{
-                    UploadGL.Helper.JobProcessUpload.GetUserName();
-                }
-            </div>*@
+                    @{
+                        UploadGL.Helper.JobProcessUpload.GetUserName();
+                    }
+                </div>*@
         </div>
     </nav>
     <div class="container body-content  pt-3">
@@ -54,5 +54,17 @@
             <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
         </footer>
     </div>
+    <script>
+        $(function () {
+            var bufferWidget = $('#buffer');
+
+            setInterval(function () {
+                $.get(bufferWidget.data('url'), function (data) {
+                    bufferWidget.html(data);
+                    bufferWidget.scrollTop(bufferWidget[0].scrollHeight);
+                });
+            }, 1000);
+        });
+    </script>
 </body>
 </html>

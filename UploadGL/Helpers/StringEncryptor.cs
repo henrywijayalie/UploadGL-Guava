@@ -1,15 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Security.Cryptography;
 using System.Text;
-using System.Web;
+using System.IO;
+using System.Security.Cryptography;
 
 namespace UploadGL.Helpers
 {
     public class StringEncryptor
     {
+
         public const String hash = "warna-bintang-kreasi.co.id.wincore.henry.wijaya";
         public const Int32 bytePermutation1 = 0x19;
         public const Int32 bytePermutation2 = 0x59;
@@ -22,7 +20,6 @@ namespace UploadGL.Helpers
             return Convert.ToBase64String(Encrypt(Encoding.UTF8.GetBytes(strData)));
             // reference https://msdn.microsoft.com/en-us/library/ds4kkd55(v=vs.110).aspx
         }
-
 
         // decoding
         public static string Decrypt(string strData)
@@ -70,8 +67,7 @@ namespace UploadGL.Helpers
             aes.Key = passbytes.GetBytes(aes.KeySize / 8);
             aes.IV = passbytes.GetBytes(aes.BlockSize / 8);
 
-            CryptoStream cryptostream = new CryptoStream(memstream,
-            aes.CreateDecryptor(), CryptoStreamMode.Write);
+            CryptoStream cryptostream = new CryptoStream(memstream, aes.CreateDecryptor(), CryptoStreamMode.Write);
             cryptostream.Write(strData, 0, strData.Length);
             cryptostream.Close();
             return memstream.ToArray();
