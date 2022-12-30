@@ -293,9 +293,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="FileEOD\" />
-    <Folder Include="FileGagal\" />
+    <Folder Include="FileFailed\" />
     <Folder Include="FileIntraday\" />
-    <Folder Include="FileSukses\" />
+    <Folder Include="FileSuccess\" />
     <Folder Include="FileTemp\" />
     <Folder Include="Log\" />
   </ItemGroup>

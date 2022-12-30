@@ -14,10 +14,11 @@ using Hangfire;
 using Hangfire.Storage;
 using IBM.Data.DB2.iSeries;
 using Newtonsoft.Json;
+using UploadGL.Helpers;
 
-namespace UploadGL.Helpers
+namespace UploadGL
 {
-    public class MainProcess
+    public static class MainProcess
     {
         public static bool isRun;
         public static string DateCore;
@@ -172,6 +173,13 @@ namespace UploadGL.Helpers
                     TextBuffer.WriteLine(i);
                 }
             }
+        }
+
+        public static string GetVersion()
+        {
+            Assembly assem = Assembly.GetExecutingAssembly();
+            AssemblyName aName = assem.GetName();
+            return aName.Version.ToString();
         }
     }
 }
