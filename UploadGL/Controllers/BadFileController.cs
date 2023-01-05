@@ -22,8 +22,8 @@ namespace UploadGL.Controllers
         public ActionResult List ()
         {
             string realPath;
-            //  realPath = Server.MapPath("~/FileFailed/" + path);
-            realPath = CommonHelper.MapPath("~/FileFailed/");
+            //  realPath = Server.MapPath("~/FileGagal/" + path);
+            realPath = CommonHelper.MapPath("~/FileGagal/");
             // or realPath = "FullPath of the folder on server" 
 
             if (Directory.Exists(realPath)) {
@@ -58,7 +58,7 @@ namespace UploadGL.Controllers
 
         public FilePathResult DownloadExampleFiles (string fileName)
         {
-            return new FilePathResult(string.Format(@"~\FileFailed\{0}", fileName + ".txt"), "text/plain");
+            return new FilePathResult(string.Format(@"~\FileGagal\{0}", fileName + ".txt"), "text/plain");
         }
 
         public FileResult Download (string file)
@@ -73,7 +73,7 @@ namespace UploadGL.Controllers
         public ActionResult DownloadReportFileLink (string name)
         {
             string message = null;
-            var path = CommonHelper.MapPath("~/FileFailed/");
+            var path = CommonHelper.MapPath("~/FileGagal/");
 
 
             if (!System.IO.File.Exists(path)) {

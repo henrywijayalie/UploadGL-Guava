@@ -25,8 +25,8 @@ namespace UploadGL.Controllers
         public ActionResult List ()
         {
             string realPath;
-            //  realPath = Server.MapPath("~/FileFailed/" + path);
-            realPath = CommonHelper.MapPath("~/FileSuccess/");
+            //  realPath = Server.MapPath("~/FileGagal/" + path);
+            realPath = CommonHelper.MapPath("~/FileSukses/");
             // or realPath = "FullPath of the folder on server" 
 
             if (Directory.Exists(realPath)) {
@@ -64,7 +64,7 @@ namespace UploadGL.Controllers
         {
 
             string message = null;
-            var path = CommonHelper.MapPath("~/FileSuccess/");
+            var path = CommonHelper.MapPath("~/FileSukses/");
 
 
             if (!System.IO.File.Exists(path)) {

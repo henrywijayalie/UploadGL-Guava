@@ -47,7 +47,6 @@ namespace UploadGL.Helpers
             return conx;
         }
 
-
         public static string GetOledbStringConnection()
         {
             string conString = string.Empty;

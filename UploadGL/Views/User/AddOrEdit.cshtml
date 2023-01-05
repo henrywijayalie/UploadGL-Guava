@@ -1,0 +1,25 @@
+﻿@model UploadGL.Models.UserModel
+@{
+    Layout = null;
+}
+
+@using (Html.BeginForm("AddOrEdit", "User", FormMethod.Post, new { onsubmit = "return SubmitForm(this)" }))
+{
+    @Html.HiddenFor(model => model.UserID)
+    <div class="form-group">
+        @Html.LabelFor(model => model.Username, new { @class = "control-label" })
+        @Html.EditorFor(model => model.Username, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.Username)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.Password, new { @class = "control-label" })
+        @Html.EditorFor(model => model.Password, "Password", new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.Password)
+    </div>
+
+
+    <div class="form-group">
+        <input type="submit" value="Submit" class="btn btn-primary" />
+        @* <input type="reset" value="Reset" class="btn" />*@
+    </div>
+}

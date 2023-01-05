@@ -176,7 +176,7 @@ namespace UploadGL.Controllers
                 // BackgroundJob.ContinueWith(jobId, () => SendEmail(name, jobId));
                 // var jobId = BackgroundJob.Enqueue(() => JobProcessUpload.RunProcess(JobProcessUpload.GetFileName()));
                 // BackgroundJob.ContinueWith(jobId, () => JobProcessUpload.ClearUplaodFile(jobId));
-                BackgroundJob.Enqueue(() => MainProcess.RunProcess());
+                BackgroundJob.Enqueue(() => MainProcess.RunProcess(MainProcess.GetFileName()));
                 //BackgroundJob.Enqueue(() => MainProcess.RunProcess(MainProcess.GetFileName()));
                 //BackgroundJob.Enqueue(() => Func.Execute(1, "Test", "OK"));
             }
