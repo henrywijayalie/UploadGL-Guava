@@ -277,7 +277,7 @@ namespace UploadGL.Helpers
 
             builder.Append(currentDate);
             builder.Append(RandomString(1, false));
-            builder.Append(RandomNumber(1, 999).ToString().PadLeft(3, '0'));
+            builder.Append(RandomNumber(1, 99).ToString().PadLeft(2, '0'));
             return builder.ToString();
         }
     }

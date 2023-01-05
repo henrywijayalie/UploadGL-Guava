@@ -402,7 +402,7 @@ namespace UploadGL
                 {
 
                     iDB2Command cmd2 = iConn.CreateCommand();
-                    cmd2.CommandText = "select TBRPOST from tbrpf where tbrtype = 'H' and TBRFLAG = 'V'";
+                    cmd2.CommandText = "select TBRPOST from tbrpf where tbrtype = 'H'";
                     cmd2.CommandTimeout = 0;
                     iConn.Open();
                     iDB2DataReader reader = cmd2.ExecuteReader();
@@ -470,45 +470,36 @@ namespace UploadGL
             {
                 try
                 {
-                    string sqlText = "INSERT INTO TBRPF (TBRBRCP, TBRSBCH, TBRSEQN, TBRBRCO, TBRDATE, TBRTIME, TBRPODT, TBRREFN, TBRCHRT, TBRDSC1, TBRACB1, TBRACN1, TBRTRC1, TBRDBC1, TBRCYCO, TBRAMNT, TBREXRT, TBRBASE, TBRTYPE, TBRUSIN, TBRDSIN, TBRDTIN, TBRTMIN) VALUES (@TBRBRCP,@TBRSBCH,@TBRSEQN,@TBRBRCO,@TBRDATE,@TBRTIME,@TBRPODT,@TBRREFN,@TBRCHRT,@TBRDSC1,@TBRACB1,@TBRACN1,@TBRTRC1,@TBRDBC1,@TBRCYCO,@TBRAMNT,@TBREXRT,@TBRBASE,@TBRTYPE,@TBRUSIN,@TBRDSIN,@TBRDTIN,@TBRTMIN)";
-
-                    iDB2Command cmd = new iDB2Command(sqlText)
-                    {
-                        CommandType = CommandType.Text,
-                        Connection = conn,
-                        CommandTimeout = 0
-                    };
-
-                    conn.Open();
-
-                    cmd.Parameters.AddWithValue("@TBRBRCP", DbType.String);
-                    cmd.Parameters.AddWithValue("@TBRSBCH", DbType.String);
-                    cmd.Parameters.AddWithValue("@TBRSEQN", DbType.Decimal);
-                    cmd.Parameters.AddWithValue("@TBRBRCO", DbType.String);
-                    cmd.Parameters.AddWithValue("@TBRDATE", DbType.Decimal);
-                    cmd.Parameters.AddWithValue("@TBRTIME", DbType.Decimal);
-                    cmd.Parameters.AddWithValue("@TBRPODT", DbType.Decimal);
-                    cmd.Parameters.AddWithValue("@TBRREFN", DbType.String);
-                    cmd.Parameters.AddWithValue("@TBRCHRT", DbType.String);
-                    cmd.Parameters.AddWithValue("@TBRDSC1", DbType.String);
-                    cmd.Parameters.AddWithValue("@TBRACB1", DbType.String);
-                    cmd.Parameters.AddWithValue("@TBRACN1", DbType.String);
-                    cmd.Parameters.AddWithValue("@TBRTRC1", DbType.String);
-                    cmd.Parameters.AddWithValue("@TBRDBC1", DbType.String);
-                    cmd.Parameters.AddWithValue("@TBRCYCO", DbType.String);
-                    cmd.Parameters.AddWithValue("@TBRAMNT", DbType.Decimal);
-                    cmd.Parameters.AddWithValue("@TBREXRT", DbType.Decimal);
-                    cmd.Parameters.AddWithValue("@TBRBASE", DbType.Decimal);
-                    cmd.Parameters.AddWithValue("@TBRTYPE", DbType.String);
-                    cmd.Parameters.AddWithValue("@TBRUSIN", DbType.String);
-                    cmd.Parameters.AddWithValue("@TBRDSIN", DbType.String);
-                    cmd.Parameters.AddWithValue("@TBRDTIN", DbType.Decimal);
-                    cmd.Parameters.AddWithValue("@TBRTMIN", DbType.Decimal);
-
                     for (int i = 0; i < contents.Count; i++)
                     {
                         var item = contents[i].Split('|');
                         var cnt = contents.Count;
+
+
+                        //cmd.Parameters.AddWithValue("@TBRBRCP", DbType.String);
+                        //cmd.Parameters.AddWithValue("@TBRSBCH", DbType.String);
+                        //cmd.Parameters.AddWithValue("@TBRSEQN", DbType.Decimal);
+                        //cmd.Parameters.AddWithValue("@TBRBRCO", DbType.String);
+                        //cmd.Parameters.AddWithValue("@TBRDATE", DbType.Decimal);
+                        //cmd.Parameters.AddWithValue("@TBRTIME", DbType.Decimal);
+                        //cmd.Parameters.AddWithValue("@TBRPODT", DbType.Decimal);
+                        //cmd.Parameters.AddWithValue("@TBRREFN", DbType.String);
+                        //cmd.Parameters.AddWithValue("@TBRCHRT", DbType.String);
+                        //cmd.Parameters.AddWithValue("@TBRDSC1", DbType.String);
+                        //cmd.Parameters.AddWithValue("@TBRACB1", DbType.String);
+                        //cmd.Parameters.AddWithValue("@TBRACN1", DbType.String);
+                        //cmd.Parameters.AddWithValue("@TBRTRC1", DbType.String);
+                        //cmd.Parameters.AddWithValue("@TBRDBC1", DbType.String);
+                        //cmd.Parameters.AddWithValue("@TBRCYCO", DbType.String);
+                        //cmd.Parameters.AddWithValue("@TBRAMNT", DbType.Decimal);
+                        //cmd.Parameters.AddWithValue("@TBREXRT", DbType.Decimal);
+                        //cmd.Parameters.AddWithValue("@TBRBASE", DbType.Decimal);
+                        //cmd.Parameters.AddWithValue("@TBRTYPE", DbType.String);
+                        //cmd.Parameters.AddWithValue("@TBRUSIN", DbType.String);
+                        //cmd.Parameters.AddWithValue("@TBRDSIN", DbType.String);
+                        //cmd.Parameters.AddWithValue("@TBRDTIN", DbType.Decimal);
+                        //cmd.Parameters.AddWithValue("@TBRTMIN", DbType.Decimal);
+
 
                         if (msg < 1)
                         {
@@ -518,40 +509,55 @@ namespace UploadGL
                             }
                             else
                             {
-                                TextBuffer.WriteLine("Uploading Data Record ..........." + item[3]);
+                                TextBuffer.WriteLine("Uploading Data Record ..........." + item[2]);
                             }
                         }
+
+                        var sqlText = "INSERT INTO TBRPF (TBRBRCP, TBRSBCH, TBRSEQN, TBRBRCO, TBRDATE, TBRTIME, TBRPODT, TBRREFN, TBRCHRT, TBRDSC1, TBRACB1, TBRACN1, TBRTRC1, TBRDBC1, TBRCYCO, TBRAMNT, TBREXRT, TBRBASE, TBRTYPE, TBRUSIN, TBRDSIN, TBRDTIN, TBRTMIN) VALUES " +
+                            "(\'0000\',\'" + NoBatch.ToString() + "\', " + (string.IsNullOrEmpty(item[2].ToString()) ? "0" : item[2].ToString()) + ", \'" + (string.IsNullOrEmpty(item[3].ToString()) ? "" : item[3].ToString()) + "\', \'" + dateCore + "\', " + 0 + ", " + (item[6].ToString() == "" ? 0 : Convert.ToDecimal(item[6])) + ", \'" + item[7] + "\', \'" + item[8] + "\', \'" + item[9] + "\', \'" + item[10] + "\', \'" + item[11] + "\', \'" + item[12] + "\', \'" + item[13] + "\', \'" + item[14] + "\', " + item[15] + "," + item[16] + "," + item[17] + ", \'" + item[18] + "\', \'" + item[19] + "\', \'" + item[20] + "\', " + item[21] + "," + item[22] + ") ";
+
+                        iDB2Command cmd = new iDB2Command(sqlText.ToString())
+                        {
+                            CommandType = CommandType.Text,
+                            Connection = conn,
+                            CommandTimeout = 0
+                        };
+
+                        conn.Open();
+
                         msg++;
                         noRec++;
                         recno++;
-                        cmd.Parameters[0].Value = "0000"; //TBRBRCP
-                        cmd.Parameters[1].Value = NoBatch.ToString(); //item[1]; //TBRSBCH //INTRADAY BLANK
-                        cmd.Parameters[2].Value = item[2].ToString() ?? ""; //TBRSEQN //INTRADAY BLANK
-                        cmd.Parameters[3].Value = item[3].ToString() ?? ""; //TBRBRCO //INTRADAY BLANK
-                        cmd.Parameters[4].Value = item[4]; //TBRDATE
-                        cmd.Parameters[5].Value = dateCore; //TBRTIME
-                        cmd.Parameters[6].Value = item[6] == "" ? 0 : Convert.ToDecimal(item[6]); //TBRPODT
-                        cmd.Parameters[7].Value = item[7] == "" ? "0" : item[7]; //TBRREFN
-                        cmd.Parameters[8].Value = item[8]; //TBRCHRT //AN
-                        cmd.Parameters[9].Value = item[9]; //TBRDSC1
-                        cmd.Parameters[10].Value = item[10].ToString() ?? ""; //TBRACB1 // BLANK
-                        cmd.Parameters[11].Value = item[11]; //TBRACN1
-                        cmd.Parameters[12].Value = item[12]; //TBRTRC1
-                        cmd.Parameters[13].Value = item[13]; //TBRDBC1
-                        cmd.Parameters[14].Value = item[14]; //TBRCYCO
-                        cmd.Parameters[15].Value = Convert.ToDecimal(item[15]); //ConversionExtensions.ToInt(item[15]); //TBRAMNT
-                        cmd.Parameters[16].Value = Convert.ToDecimal(item[16]); //TBREXRT
-                        cmd.Parameters[17].Value = Convert.ToDecimal(item[17]); //TBRBASE
-                        cmd.Parameters[18].Value = item[18]; //TBRTYPE
-                        cmd.Parameters[19].Value = item[19]; //TBRUSIN
-                        cmd.Parameters[20].Value = item[20]; //CommonHelper.RandomDSPBatch() + item[3].PadLeft(6, '0'); //TBRDSIN
-                        cmd.Parameters[21].Value = item[21]; //TBRDTIN
-                        cmd.Parameters[22].Value = item[22]; //TBRTMIN
+                        //cmd.Parameters[0].Value = "0000"; //TBRBRCP
+                        //cmd.Parameters[1].Value = NoBatch.ToString(); //item[1]; //TBRSBCH //INTRADAY BLANK
+                        //cmd.Parameters[2].Value = item[2].ToString() ?? ""; //TBRSEQN //INTRADAY BLANK
+                        //cmd.Parameters[3].Value = item[3].ToString() ?? ""; //TBRBRCO //INTRADAY BLANK
+                        //cmd.Parameters[4].Value = item[4]; //TBRDATE
+                        //cmd.Parameters[5].Value = dateCore; //TBRTIME
+                        //cmd.Parameters[6].Value = item[6] == "" ? 0 : Convert.ToDecimal(item[6]); //TBRPODT
+                        //cmd.Parameters[7].Value = item[7] == "" ? "0" : item[7]; //TBRREFN
+                        //cmd.Parameters[8].Value = item[8]; //TBRCHRT //AN
+                        //cmd.Parameters[9].Value = item[9]; //TBRDSC1
+                        //cmd.Parameters[10].Value = item[10].ToString() ?? ""; //TBRACB1 // BLANK
+                        //cmd.Parameters[11].Value = item[11]; //TBRACN1
+                        //cmd.Parameters[12].Value = item[12]; //TBRTRC1
+                        //cmd.Parameters[13].Value = item[13]; //TBRDBC1
+                        //cmd.Parameters[14].Value = item[14]; //TBRCYCO
+                        //cmd.Parameters[15].Value = Convert.ToDecimal(item[15]); //ConversionExtensions.ToInt(item[15]); //TBRAMNT
+                        //cmd.Parameters[16].Value = Convert.ToDecimal(item[16]); //TBREXRT
+                        //cmd.Parameters[17].Value = Convert.ToDecimal(item[17]); //TBRBASE
+                        //cmd.Parameters[18].Value = item[18]; //TBRTYPE
+                        //cmd.Parameters[19].Value = item[19]; //TBRUSIN
+                        //cmd.Parameters[20].Value = item[20]; //CommonHelper.RandomDSPBatch() + item[3].PadLeft(6, '0'); //TBRDSIN
+                        //cmd.Parameters[21].Value = item[21]; //TBRDTIN
+                        //cmd.Parameters[22].Value = item[22]; //TBRTMIN
 
                         cmd.ExecuteNonQuery();
+                        cmd.Parameters.Clear();
+
+                        conn.Close();
                     }
 
-                    conn.Close();
                 }
                 catch (Exception ex)
                 {
@@ -617,7 +623,7 @@ namespace UploadGL
                 }
             }
         }
-        public static void HeaderPostingGL()
+        public static void HeaderPostingGL(bool isEODFile)
         {
             string conString = ConnectionHelper.GetStringConnection(); //ConfigurationManager.ConnectionStrings["DefaultConnectionIBM"].ConnectionString;
             try
@@ -633,7 +639,7 @@ namespace UploadGL
                          new iDB2Parameter("@TBRSBCH",NoBatch),
                          new iDB2Parameter("@TBRDATE",DateCore),
                          new iDB2Parameter("@TBRTYPE", "H"),
-                         new iDB2Parameter("@TBRFLAG", "V"),
+                         new iDB2Parameter("@TBRFLAG", isEODFile ? "V" : "E"),
                          new iDB2Parameter("@TBRPROC", ""),
                          new iDB2Parameter("@TBRPOST", ""),
                          new iDB2Parameter("@TBRAMNT", lineCount - 1)
@@ -794,7 +800,7 @@ namespace UploadGL
                                                     TextBuffer.WriteLine("Proses Validasi Data Selesai");
                                                     //      LogSuccess("Proses Validasi Data Selesai.", log);
                                                     //HeaderPostingGL();
-                                                    HeaderPostingGL();
+                                                    HeaderPostingGL(isEODFile);
 
                                                     while (IsUpload == true)
                                                     {
@@ -846,6 +852,7 @@ namespace UploadGL
                                                             default:
                                                                 if (msg3 < 1)
                                                                 {
+                                                                    TextBuffer.WriteLine("");
                                                                     TextBuffer.WriteLine("Menunggu Proses Posting di WINCORE... ");
                                                                     waitpost.Start();
                                                                     //        LogSuccess("Waiting Proses Posting di WINCORE....", log);
@@ -1093,14 +1100,14 @@ namespace UploadGL
         static private void waitpost_Tick(object sender, System.Timers.ElapsedEventArgs e)
         {
             TextBuffer.WriteLine("");
-            TextBuffer.WriteError("PROSES POSTING TIDAK BERJALAN, CEK SP500 PASTIKAN A5 @@ATSBCHA5 *ACTIVE");
+            TextBuffer.WriteError("PROSES POSTING TIDAK BERJALAN, CEK SP500 PASTIKAN A5 @@ATSBCHA7 *ACTIVE");
             TextBuffer.WriteLine("");
         }
         static private void waitval_Tick(object sender, System.Timers.ElapsedEventArgs e)
         {
 
             TextBuffer.WriteLine("");
-            TextBuffer.WriteError("PROSES VALIDASI TIDAK BERJALAN, CEK SP500 PASTIKAN A5 @@ATSBCHA5 *ACTIVE");
+            TextBuffer.WriteError("PROSES VALIDASI TIDAK BERJALAN, CEK SP500 PASTIKAN A5 @@ATSBCHA7 *ACTIVE");
             TextBuffer.WriteError("");
 
         }
@@ -1275,7 +1282,7 @@ namespace UploadGL
                 using (iDB2Connection iConn = new iDB2Connection(conString))
                 {
                     iDB2Command cmd2 = iConn.CreateCommand();
-                    cmd2.CommandText = "select TBRPROC from TBRPF where tbrtype = 'H' and TBRFLAG = 'V'";
+                    cmd2.CommandText = "select TBRPROC from TBRPF where tbrtype = 'H' and TBRPOST = 'Y'";
                     iConn.Open();
                     iDB2DataReader reader = cmd2.ExecuteReader();
 
@@ -1347,7 +1354,7 @@ namespace UploadGL
                 using (iDB2Connection iConn = new iDB2Connection(conString))
                 {
                     iDB2Command cmd2 = iConn.CreateCommand();
-                    cmd2.CommandText = "select TBRPROC from TBRPF where tbrtype = 'H' and TBRFLAG = 'P'";
+                    cmd2.CommandText = "select TBRPROC from TBRPF where tbrtype = 'H'";
                     iConn.Open();
                     iDB2DataReader reader = cmd2.ExecuteReader();
 
@@ -1592,10 +1599,10 @@ namespace UploadGL
                         cmd2.CommandText = "select TBRDSIN, TBRSBCH,TBRACN1,TBRERCO,TBRERDS from TBRPF where  tbrpost = 'Y' and tbrtype = 'H' and tbrproc ='03' and TBRFLAG ='V' ";
                         cmd2.CommandTimeout = 0;
                         iDB2Command cmd3 = iConn.CreateCommand();
-                        cmd3.CommandText = "SELECT  TBRBRCO,SUM(CASE WHEN tbrdbc1 = 'D' THEN TBRAMNT END) AS DEBET,SUM(CASE WHEN tbrdbc1 = 'K' THEN TBRAMNT END) AS KREDIT,SUM(CASE WHEN tbrdbc1 = 'D' THEN TBRAMNT END) - SUM(CASE WHEN tbrdbc1 = 'K' THEN TBRAMNT END) as SELISIH FROM TBRPF WHERE  TBRTYPE <> 'H' GROUP BY TBRBRCO";
+                        cmd3.CommandText = "SELECT  TBRBRCO,SUM(CASE WHEN tbrdbc1 = 'D' THEN TBRAMNT END) AS DEBET,SUM(CASE WHEN tbrdbc1 = 'K' THEN TBRAMNT END) AS KREDIT,SUM(CASE WHEN tbrdbc1 = 'D' THEN TBRAMNT END) - SUM(CASE WHEN tbrdbc1 = 'K' THEN TBRAMNT END) as SELISIH FROM TBRPF WHERE  TBRTYPE <> 'H'  and TBRFLAG ='V' GROUP BY TBRBRCO";
                         cmd3.CommandTimeout = 0;
                         iDB2Command cmd4 = iConn.CreateCommand();
-                        cmd4.CommandText = "SELECT SUM(CASE WHEN tbrdbc1 = 'D' THEN TBRAMNT END) AS DEBET, SUM(CASE WHEN tbrdbc1 = 'K' THEN TBRAMNT END) AS KREDIT, SUM(CASE WHEN tbrdbc1 = 'D' THEN TBRAMNT END) -SUM(CASE WHEN tbrdbc1 = 'K' THEN TBRAMNT END) as SELISIH FROM TBRPF WHERE TBRTYPE<> 'H'";
+                        cmd4.CommandText = "SELECT SUM(CASE WHEN tbrdbc1 = 'D' THEN TBRAMNT END) AS DEBET, SUM(CASE WHEN tbrdbc1 = 'K' THEN TBRAMNT END) AS KREDIT, SUM(CASE WHEN tbrdbc1 = 'D' THEN TBRAMNT END) -SUM(CASE WHEN tbrdbc1 = 'K' THEN TBRAMNT END) as SELISIH FROM TBRPF WHERE TBRTYPE<> 'H' and TBRFLAG ='V'";
                         cmd4.CommandTimeout = 0;
 
                         iConn.Open();
@@ -1649,11 +1656,11 @@ namespace UploadGL
                                 i++;
                                 string TBRBRCOx = (string)reader2["TBRBRCO"];
                                 TBRBRCO = TBRBRCOx.ToString();
-                                decimal DEBET = (decimal)reader2["DEBET"];
+                                var DEBET = string.IsNullOrWhiteSpace(reader2["DEBET"].ToString()) ? 0 : (decimal)reader2["DEBET"];
                                 TBRAMNT1 = DEBET.ToString();
-                                decimal KREDIT = (decimal)reader2["KREDIT"];
+                                var KREDIT = string.IsNullOrWhiteSpace(reader2["KREDIT"].ToString()) ? 0 : (decimal)reader2["KREDIT"];
                                 TBRAMNT2 = KREDIT.ToString();
-                                decimal SELISIH = (decimal)reader2["SELISIH"];
+                                decimal SELISIH = string.IsNullOrWhiteSpace(reader2["SELISIH"].ToString()) ? 0 : (decimal)reader2["SELISIH"];
                                 TBRAMNT3 = SELISIH.ToString();
 
                                 writer.WriteLine("|" + i.ToString().PadLeft(7, ' ') + "|" + TBRBRCO.PadLeft(20, ' ') + "|" + TBRAMNT1.PadLeft(20, ' ') + "|" + TBRAMNT2.PadLeft(20, ' ') + "|" + TBRAMNT3.PadLeft(20, ' ') + "|");
@@ -1664,11 +1671,11 @@ namespace UploadGL
                         {
                             while (reader3.Read())
                             {
-                                decimal DEBET = (decimal)reader2["DEBET"];
+                                decimal DEBET = string.IsNullOrWhiteSpace(reader3["DEBET"].ToString()) ? 0 : (decimal)reader3["DEBET"];
                                 TBRAMNT1 = DEBET.ToString();
-                                decimal KREDIT = (decimal)reader2["KREDIT"];
+                                decimal KREDIT = string.IsNullOrWhiteSpace(reader3["KREDIT"].ToString()) ? 0 : (decimal)reader3["KREDIT"];
                                 TBRAMNT2 = KREDIT.ToString();
-                                decimal SELISIH = (decimal)reader2["SELISIH"];
+                                decimal SELISIH = string.IsNullOrWhiteSpace(reader3["SELISIH"].ToString()) ? 0 : (decimal)reader3["SELISIH"];
                                 TBRAMNT3 = SELISIH.ToString();
                             }
                         }
