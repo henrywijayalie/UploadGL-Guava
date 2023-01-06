@@ -476,6 +476,36 @@ namespace UploadGL
                         var cnt = contents.Count;
 
 
+                        if (msg < 1)
+                        {
+                            if (cnt < 1000)
+                            {
+                                TextBuffer.WriteLine("Uploading Data Record ..........." + cnt);
+                            }
+                            else
+                            {
+                                TextBuffer.WriteLine("Uploading Data Record ..........." + item[2]);
+                            }
+                        }
+
+                        var sqlText = "INSERT INTO TBRPF (TBRBRCP, TBRSBCH, TBRSEQN, TBRBRCO, TBRDATE, TBRTIME, TBRPODT, TBRREFN, TBRCHRT, TBRDSC1, TBRACB1, TBRACN1, TBRTRC1, TBRDBC1, TBRCYCO, TBRAMNT, TBREXRT, TBRBASE, TBRTYPE, TBRUSIN, TBRDSIN, TBRDTIN, TBRTMIN) VALUES " +
+                            "(\'0000\',\'" + NoBatch.ToString() + "\', " + (string.IsNullOrEmpty(item[2].ToString()) ? "0" : item[2].ToString()) + ", \'" + (string.IsNullOrEmpty(item[3].ToString()) ? "" : item[3].ToString()) + "\', \'" + dateCore + "\', " + item[5] + ", " + (item[6].ToString() == "" ? 0 : Convert.ToDecimal(item[6])) + ", \'" + item[7] + "\', \'" + item[8] + "\', \'" + item[9] + "\', \'" + item[10] + "\', \'" + item[11] + "\', \'" + item[12] + "\', \'" + item[13] + "\', \'" + item[14] + "\', " + item[15] + "," + item[16] + "," + item[17] + ", \'" + item[18] + "\', \'" + item[19] + "\', \'" + item[20] + "\', " + item[21] + "," + item[22] + ") ";
+
+                        iDB2Command cmd = new iDB2Command(sqlText.ToString())
+                        {
+                            CommandType = CommandType.Text,
+                            Connection = conn,
+                            CommandTimeout = 0
+                        };
+
+                        conn.Open();
+
+                        msg++;
+                        noRec++;
+                        recno++;
+
+
+
                         //cmd.Parameters.AddWithValue("@TBRBRCP", DbType.String);
                         //cmd.Parameters.AddWithValue("@TBRSBCH", DbType.String);
                         //cmd.Parameters.AddWithValue("@TBRSEQN", DbType.Decimal);
@@ -500,40 +530,12 @@ namespace UploadGL
                         //cmd.Parameters.AddWithValue("@TBRDTIN", DbType.Decimal);
                         //cmd.Parameters.AddWithValue("@TBRTMIN", DbType.Decimal);
 
-
-                        if (msg < 1)
-                        {
-                            if (cnt < 1000)
-                            {
-                                TextBuffer.WriteLine("Uploading Data Record ..........." + cnt);
-                            }
-                            else
-                            {
-                                TextBuffer.WriteLine("Uploading Data Record ..........." + item[2]);
-                            }
-                        }
-
-                        var sqlText = "INSERT INTO TBRPF (TBRBRCP, TBRSBCH, TBRSEQN, TBRBRCO, TBRDATE, TBRTIME, TBRPODT, TBRREFN, TBRCHRT, TBRDSC1, TBRACB1, TBRACN1, TBRTRC1, TBRDBC1, TBRCYCO, TBRAMNT, TBREXRT, TBRBASE, TBRTYPE, TBRUSIN, TBRDSIN, TBRDTIN, TBRTMIN) VALUES " +
-                            "(\'0000\',\'" + NoBatch.ToString() + "\', " + (string.IsNullOrEmpty(item[2].ToString()) ? "0" : item[2].ToString()) + ", \'" + (string.IsNullOrEmpty(item[3].ToString()) ? "" : item[3].ToString()) + "\', \'" + dateCore + "\', " + 0 + ", " + (item[6].ToString() == "" ? 0 : Convert.ToDecimal(item[6])) + ", \'" + item[7] + "\', \'" + item[8] + "\', \'" + item[9] + "\', \'" + item[10] + "\', \'" + item[11] + "\', \'" + item[12] + "\', \'" + item[13] + "\', \'" + item[14] + "\', " + item[15] + "," + item[16] + "," + item[17] + ", \'" + item[18] + "\', \'" + item[19] + "\', \'" + item[20] + "\', " + item[21] + "," + item[22] + ") ";
-
-                        iDB2Command cmd = new iDB2Command(sqlText.ToString())
-                        {
-                            CommandType = CommandType.Text,
-                            Connection = conn,
-                            CommandTimeout = 0
-                        };
-
-                        conn.Open();
-
-                        msg++;
-                        noRec++;
-                        recno++;
                         //cmd.Parameters[0].Value = "0000"; //TBRBRCP
                         //cmd.Parameters[1].Value = NoBatch.ToString(); //item[1]; //TBRSBCH //INTRADAY BLANK
                         //cmd.Parameters[2].Value = item[2].ToString() ?? ""; //TBRSEQN //INTRADAY BLANK
                         //cmd.Parameters[3].Value = item[3].ToString() ?? ""; //TBRBRCO //INTRADAY BLANK
-                        //cmd.Parameters[4].Value = item[4]; //TBRDATE
-                        //cmd.Parameters[5].Value = dateCore; //TBRTIME
+                        //cmd.Parameters[4].Value = dateCore; //TBRDATE
+                        //cmd.Parameters[5].Value = item[5]; //TBRTIME
                         //cmd.Parameters[6].Value = item[6] == "" ? 0 : Convert.ToDecimal(item[6]); //TBRPODT
                         //cmd.Parameters[7].Value = item[7] == "" ? "0" : item[7]; //TBRREFN
                         //cmd.Parameters[8].Value = item[8]; //TBRCHRT //AN
@@ -635,13 +637,13 @@ namespace UploadGL
                     sqlText2 += "(@TBRBRCP,@TBRSBCH,@TBRDATE,@TBRTYPE,@TBRFLAG,@TBRPROC,@TBRPOST,@TBRAMNT)";
                     List<iDB2Parameter> paraList = new List<iDB2Parameter>()
                     {
-                         new iDB2Parameter("@TBRBRCP","0000"),
+                         new iDB2Parameter("@TBRBRCP","0000"), 
                          new iDB2Parameter("@TBRSBCH",NoBatch),
-                         new iDB2Parameter("@TBRDATE",DateCore),
+                         new iDB2Parameter("@TBRDATE",DateCore), 
                          new iDB2Parameter("@TBRTYPE", "H"),
-                         new iDB2Parameter("@TBRFLAG", isEODFile ? "V" : "E"),
-                         new iDB2Parameter("@TBRPROC", ""),
-                         new iDB2Parameter("@TBRPOST", ""),
+                         new iDB2Parameter("@TBRFLAG", "P"),
+                         new iDB2Parameter("@TBRPROC", ""), 
+                         new iDB2Parameter("@TBRPOST", ""), 
                          new iDB2Parameter("@TBRAMNT", lineCount - 1)
                     };
 
@@ -830,7 +832,7 @@ namespace UploadGL
                                                                     ReportDetailPostSukses(filex, startTime, DateTime.Now, FlagHeaderNoBatch(), FlagHeaderProc());
                                                                     ReportDetailPostPenampunganSukses(filex, startTime, DateTime.Now, FlagHeaderNoBatch(), FlagHeaderProc());
                                                                     ReportDetailPostError(filex, startTime, DateTime.Now, FlagHeaderNoBatch(), FlagHeaderProc());
-                                                                    SummaryReportSuksesUpload(filex, startTime, DateTime.Now, FlagHeaderNoBatch(), FlagHeaderProc());
+                                                                    SummaryReportSuksesUpload(filex, startTime, DateTime.Now, FlagHeaderNoBatch(), FlagHeaderProc(), isEODFile);
                                                                     //        LogSuccess("Proses Posting Selesai.", log);
                                                                     TextBuffer.WriteLine("Proses Posting Selesai.");
                                                                     IsUpload = false;
@@ -842,7 +844,7 @@ namespace UploadGL
                                                                 waitpost.Close();
                                                                 TextBuffer.WriteError("ERROR: Posting Validasi Data Error");
                                                                 //  Console.ForegroundColor = ConsoleColor.White;
-                                                                ReportHeaderPostingError(filex, startTime, DateTime.Now, FlagHeaderNoBatch(), FlagHeaderProc());
+                                                                ReportHeaderPostingError(filex, startTime, DateTime.Now, FlagHeaderNoBatch(), FlagHeaderProc(), isEODFile);
                                                                 //  SummaryReportErrorUpload(filex, startTime, DateTime.Now, FlagHeaderNoBatch(), FlagHeaderProc());
 
                                                                 IsUpload = false;
@@ -867,7 +869,7 @@ namespace UploadGL
 
                                                 waitval.Stop();
                                                 TextBuffer.WriteError("ERROR: Validasi Total Mutasi Tidak Balance  ");
-                                                ReportHeaderValError(filex, startTime, DateTime.Now, FlagHeaderNoBatch(), FlagHeaderProc());
+                                                ReportHeaderValError(filex, startTime, DateTime.Now, FlagHeaderNoBatch(), FlagHeaderProc(), isEODFile);
                                                 //      LogSuccess("Validasi total mutasi tidak balance  ", log);
 
                                                 IsUpload = false;
@@ -875,7 +877,7 @@ namespace UploadGL
                                             case "04":
                                                 waitval.Stop();
                                                 TextBuffer.WriteError("ERROR: Validasi Detail Data");
-                                                ReportDetailValError(filex, startTime, DateTime.Now, FlagHeaderNoBatch(), FlagHeaderProc());
+                                                ReportDetailValError(filex, startTime, DateTime.Now, FlagHeaderNoBatch(), FlagHeaderProc(), isEODFile);
                                                 //   LogSuccess("ERROR-Validasi Data Detail", log);
 
                                                 IsUpload = false;
@@ -1100,14 +1102,14 @@ namespace UploadGL
         static private void waitpost_Tick(object sender, System.Timers.ElapsedEventArgs e)
         {
             TextBuffer.WriteLine("");
-            TextBuffer.WriteError("PROSES POSTING TIDAK BERJALAN, CEK SP500 PASTIKAN A5 @@ATSBCHA7 *ACTIVE");
+            TextBuffer.WriteError("PROSES POSTING TIDAK BERJALAN, CEK SP500 PASTIKAN A7 @@ATSBCHA7 *ACTIVE");
             TextBuffer.WriteLine("");
         }
         static private void waitval_Tick(object sender, System.Timers.ElapsedEventArgs e)
         {
 
             TextBuffer.WriteLine("");
-            TextBuffer.WriteError("PROSES VALIDASI TIDAK BERJALAN, CEK SP500 PASTIKAN A5 @@ATSBCHA7 *ACTIVE");
+            TextBuffer.WriteError("PROSES VALIDASI TIDAK BERJALAN, CEK SP500 PASTIKAN A7 @@ATSBCHA7 *ACTIVE");
             TextBuffer.WriteError("");
 
         }
@@ -1122,6 +1124,7 @@ namespace UploadGL
                 string filex = Path.GetFileNameWithoutExtension(filename);
                 string[] fname = filex.Split('_');
 
+                bool isEODFile = filex.Contains("EOD");
                 int msg = 0;
                 int msg2 = 0;
 
@@ -1155,7 +1158,7 @@ namespace UploadGL
                                 ReportDetailPostSukses(filex, startTime, DateTime.Now, FlagHeaderNoBatch(), FlagHeaderProc());
                                 ReportDetailPostPenampunganSukses(filex, startTime, DateTime.Now, FlagHeaderNoBatch(), FlagHeaderProc());
                                 ReportDetailPostError(filex, startTime, DateTime.Now, FlagHeaderNoBatch(), FlagHeaderProc());
-                                SummaryReportSuksesUpload(filex, startTime, DateTime.Now, FlagHeaderNoBatch(), FlagHeaderProc());
+                                SummaryReportSuksesUpload(filex, startTime, DateTime.Now, FlagHeaderNoBatch(), FlagHeaderProc(), isEODFile);
                                 //        LogSuccess("Proses Posting Selesai.", log);
                                 TextBuffer.WriteLine("Proses Posting Selesai.");
                                 IsUpload = false;
@@ -1165,7 +1168,7 @@ namespace UploadGL
                         case "03":
                             waitpost.Stop();
                             TextBuffer.WriteError("ERROR: Posting Validasi Data Error");
-                            ReportHeaderPostingError(filex, startTime, DateTime.Now, FlagHeaderNoBatch(), FlagHeaderProc());
+                            ReportHeaderPostingError(filex, startTime, DateTime.Now, FlagHeaderNoBatch(), FlagHeaderProc(), isEODFile);
                             //  SummaryReportErrorUpload(filex, startTime, DateTime.Now, FlagHeaderNoBatch(), FlagHeaderProc());
 
                             IsUpload = false;
@@ -1354,7 +1357,7 @@ namespace UploadGL
                 using (iDB2Connection iConn = new iDB2Connection(conString))
                 {
                     iDB2Command cmd2 = iConn.CreateCommand();
-                    cmd2.CommandText = "select TBRPROC from TBRPF where tbrtype = 'H'";
+                    cmd2.CommandText = "select TBRPROC from TBRPF where tbrtype = 'H' AND TBRFLAG = 'P'";
                     iConn.Open();
                     iDB2DataReader reader = cmd2.ExecuteReader();
 
@@ -1380,14 +1383,15 @@ namespace UploadGL
             }
         }
 
-        public static void ReportHeaderValError(string namafile, DateTime jammulai, DateTime jamselesai, string noBatch, string prosesFlag)
+        public static void ReportHeaderValError(string namafile, DateTime jammulai, DateTime jamselesai, string noBatch, string prosesFlag, bool isEODFile)
         {
             string conString = ConnectionHelper.GetStringConnection(); //ConfigurationManager.ConnectionStrings["DefaultConnectionIBM"].ConnectionString;
                                                                        //string DirGagal = ConfigurationManager.ConnectionStrings["FileGagal"].ConnectionString;
                                                                        //string fileUpload = ConfigurationManager.ConnectionStrings["FileIntraday"].ConnectionString;
             namafile = Path.GetFileNameWithoutExtension(namafile);
             string DirGagal = System.Web.Hosting.HostingEnvironment.MapPath("~/FileGagal/");
-            string fileUpload = System.Web.Hosting.HostingEnvironment.MapPath("~/FileIntraday/");
+            string fileUpload = isEODFile ? System.Web.Hosting.HostingEnvironment.MapPath("~/FileEOD/") : System.Web.Hosting.HostingEnvironment.MapPath("~/FileIntraday/");
+            string TBRFLAG = "V";
 
             string TBRDSIN = string.Empty;
             string TBRSBCH = string.Empty;
@@ -1426,7 +1430,7 @@ namespace UploadGL
                     {
 
                         iDB2Command cmd2 = iConn.CreateCommand();
-                        cmd2.CommandText = "select TBRDSIN, TBRSBCH,TBRACN1,TBRERCO,TBRERDS from TBRPF where  TBRpost = 'Y' and TBRtype = 'H' and tbrproc ='03' and TBRFLAG ='V' ";
+                        cmd2.CommandText = "select TBRDSIN, TBRSBCH,TBRACN1,TBRERCO,TBRERDS from TBRPF where  TBRpost = 'Y' and TBRtype = 'H' and tbrproc ='03' and TBRFLAG ='"+ TBRFLAG + "' ";
                         cmd2.CommandTimeout = 0;
                         iDB2Command cmd3 = iConn.CreateCommand();
                         cmd3.CommandText = "SELECT  TBRBRCO,TBRCYCO, SUM(CASE WHEN tbrdbc1 = 'D' THEN TBRAMNT END) AS DEBET,SUM(CASE WHEN tbrdbc1 = 'K' THEN TBRAMNT END) AS KREDIT,SUM(CASE WHEN tbrdbc1 = 'D' THEN TBRAMNT END) - SUM(CASE WHEN tbrdbc1 = 'K' THEN TBRAMNT END) as SELISIH FROM TBRPF WHERE  TBRTYPE <> 'H' GROUP BY TBRBRCO, TBRCYCO";
@@ -1453,12 +1457,13 @@ namespace UploadGL
                                 TBRERDS = (string)reader1["TBRERDS"];
 
                                 string msg = string.Empty;
-                                var prefix = new List<string>();
-
-                                prefix.Add("RECORD : " + TBRDSIN);
-                                prefix.Add("NO BATCH : " + TBRSBCH);
-                                prefix.Add("ERROR CODE : " + TBRERCO);
-                                prefix.Add("ERROR DESC : " + TBRERDS);
+                                var prefix = new List<string>
+                                {
+                                    "RECORD : " + TBRDSIN,
+                                    "NO BATCH : " + TBRSBCH,
+                                    "ERROR CODE : " + TBRERCO,
+                                    "ERROR DESC : " + TBRERDS
+                                };
 
                                 if (prefix.Any())
                                 {
@@ -1550,14 +1555,14 @@ namespace UploadGL
                 throw new InvalidOperationException(ex.ToString());
             }
         }
-        public static void ReportHeaderPostingError(string namafile, DateTime jammulai, DateTime jamselesai, string noBatch, string prosesFlag)
+        public static void ReportHeaderPostingError(string namafile, DateTime jammulai, DateTime jamselesai, string noBatch, string prosesFlag, bool isEODFile)
         {
             string conString = ConnectionHelper.GetStringConnection(); //ConfigurationManager.ConnectionStrings["DefaultConnectionIBM"].ConnectionString;
                                                                        //string DirGagal = ConfigurationManager.ConnectionStrings["FileGagal"].ConnectionString;
                                                                        // string fileUpload = ConfigurationManager.ConnectionStrings["FileIntraday"].ConnectionString;
 
             string DirGagal = System.Web.Hosting.HostingEnvironment.MapPath("~/FileGagal/");
-            string fileUpload = System.Web.Hosting.HostingEnvironment.MapPath("~/FileIntraday/");
+            string fileUpload = isEODFile ? System.Web.Hosting.HostingEnvironment.MapPath("~/FileEOD/") : System.Web.Hosting.HostingEnvironment.MapPath("~/FileIntraday/");
 
             namafile = Path.GetFileNameWithoutExtension(namafile);
 
@@ -1596,12 +1601,12 @@ namespace UploadGL
                     {
 
                         iDB2Command cmd2 = iConn.CreateCommand();
-                        cmd2.CommandText = "select TBRDSIN, TBRSBCH,TBRACN1,TBRERCO,TBRERDS from TBRPF where  tbrpost = 'Y' and tbrtype = 'H' and tbrproc ='03' and TBRFLAG ='V' ";
+                        cmd2.CommandText = "select TBRDSIN, TBRSBCH,TBRACN1,TBRERCO,TBRERDS from TBRPF where  tbrpost = 'Y' and tbrtype = 'H' and tbrproc ='03' and TBRFLAG ='P' ";
                         cmd2.CommandTimeout = 0;
                         iDB2Command cmd3 = iConn.CreateCommand();
                         cmd3.CommandText = "SELECT  TBRBRCO,SUM(CASE WHEN tbrdbc1 = 'D' THEN TBRAMNT END) AS DEBET,SUM(CASE WHEN tbrdbc1 = 'K' THEN TBRAMNT END) AS KREDIT,SUM(CASE WHEN tbrdbc1 = 'D' THEN TBRAMNT END) - SUM(CASE WHEN tbrdbc1 = 'K' THEN TBRAMNT END) as SELISIH FROM TBRPF WHERE  TBRTYPE <> 'H'  and TBRFLAG ='V' GROUP BY TBRBRCO";
                         cmd3.CommandTimeout = 0;
-                        iDB2Command cmd4 = iConn.CreateCommand();
+                        iDB2Command cmd4 = iConn.CreateCommand();   
                         cmd4.CommandText = "SELECT SUM(CASE WHEN tbrdbc1 = 'D' THEN TBRAMNT END) AS DEBET, SUM(CASE WHEN tbrdbc1 = 'K' THEN TBRAMNT END) AS KREDIT, SUM(CASE WHEN tbrdbc1 = 'D' THEN TBRAMNT END) -SUM(CASE WHEN tbrdbc1 = 'K' THEN TBRAMNT END) as SELISIH FROM TBRPF WHERE TBRTYPE<> 'H' and TBRFLAG ='V'";
                         cmd4.CommandTimeout = 0;
 
@@ -1694,7 +1699,7 @@ namespace UploadGL
                 if (!exists)
                     Directory.CreateDirectory(DirGagal);
 
-                File.WriteAllText(DirGagal + "\\" + namafile + "_posting_nobalance.error.txt", sb.ToString());
+                File.WriteAllText(DirGagal + "\\" + namafile + "_posting_notbalance.error.txt", sb.ToString());
 
                 var destinationcsv = Path.Combine(DirGagal + "\\", namafile.Trim() + ".csv");
                 if (File.Exists(destinationcsv))
@@ -1717,14 +1722,14 @@ namespace UploadGL
                 throw new InvalidOperationException(ex.ToString());
             }
         }
-        public static void ReportDetailValError(string namafile, DateTime jammulai, DateTime jamselesai, string noBatch, string prosesFlag)
+        public static void ReportDetailValError(string namafile, DateTime jammulai, DateTime jamselesai, string noBatch, string prosesFlag, bool isEODFile)
         {
             string DirGagal = System.Web.Hosting.HostingEnvironment.MapPath("~/FileGagal/");
-            string fileUpload = System.Web.Hosting.HostingEnvironment.MapPath("~/FileIntraday/");
+            string fileUpload = isEODFile ? System.Web.Hosting.HostingEnvironment.MapPath("~/FileEOD/") : System.Web.Hosting.HostingEnvironment.MapPath("~/FileIntraday/");
             string conString = ConnectionHelper.GetStringConnection();
 
             //namafile = Path.GetFileNameWithoutExtension(namafile);
-
+            var TBRFLAG = isEODFile ? "V" : "E";
             string TBRSEQN = string.Empty;
             string TBRSBCH = string.Empty;
             string TBRACN1 = string.Empty;
@@ -1766,7 +1771,7 @@ namespace UploadGL
                     writer.WriteLine("NO BATCH                       : " + noBatch);
                     writer.WriteLine("TANGGAL & JAM PROSES MULAI     : " + jammulai);
                     writer.WriteLine("TANGGAL & JAM PROSES SELESAI   : " + jamselesai);
-                    writer.WriteLine("PROCESS TYPE / PROCESS FLAG    : " + prosesFlag);
+                    writer.WriteLine("PROCESS TYPE / PROCESS FLAG    : " + prosesFlag + " / " + TBRFLAG);
                     writer.WriteLine("");
 
                     writer.WriteLine("PESAN ERROR : \r");
@@ -1774,13 +1779,13 @@ namespace UploadGL
                     using (iDB2Connection iConn = new iDB2Connection(conString))
                     {
                         iDB2Command cmd2 = iConn.CreateCommand();
-                        cmd2.CommandText = "select TBRSEQN, TBRSBCH,TBRACN1,TBRERCO,TBRERDS from TBRPF where tbrpost = 'Y' and tbrtype = 'H' and tbrproc ='04' and TBRFLAG ='V' ";
+                        cmd2.CommandText = "select TBRSEQN, TBRSBCH,TBRACN1,TBRERCO,TBRERDS from TBRPF where tbrpost = 'Y' and tbrtype = 'H' and tbrproc ='04' and TBRFLAG ='"+ TBRFLAG + "' ";
 
                         iDB2Command cmd3 = iConn.CreateCommand();
 
                         string sqlText = "select t1.TBRERCO as TBRERCO ,t1.TBRERDS as TBRERDS , t1.TBRSEQN as TBRSEQN , t1.TBRBRCO as TBRBRCO, t1.TBRDATE as TBRDATE, t1.TBRPODT as TBRPODT , t1.TBRREFN as TBRREFN , t1.TBRACN1 as TBRACN1 , t1.TBRAMNT as TBRAMNT , t1.TBRDSC1  as TBRDSC1 , t1.TBRDBC1 as TBRDBC1 , t2.JERERCO as JERERCO , t2.JERDESC as JERDESC , t2.JERLEVL as  JERLEVL, t2.JERUSLV as JERUSLV  from TBRPF t1 ";
                         sqlText += "LEFT join WINATSTMP.JERRPF t2 on t1.TBRUSIN = t2.JERUSER and t1.TBRDSIN = t2.JERDISP and t1.TBRDTIN = t2.JERDATE and t1.TBRTMIN = t2.JERTIME  and t1.TBRBRCO = t2.JERBRCO and t1.TBRDOCM = t2.JERMENU ";
-                        sqlText += "where t1.tbrtype <> 'H' and t1.tbrflag = '3' ";
+                        sqlText += "where t1.tbrtype <> 'H' and t1.tbrflag = '3' and JERLEVL = '0'";
 
                         cmd3.CommandText = sqlText;
                         iConn.Open();
@@ -1958,13 +1963,13 @@ namespace UploadGL
                     using (iDB2Connection iConn = new iDB2Connection(conString))
                     {
                         iDB2Command cmd2 = iConn.CreateCommand();
-                        cmd2.CommandText = "select TBRDSIN, TBRSBCH,TBRACN1,TBRERCO,TBRERDS from TBRPF where  tbrpost = 'Y' and tbrtype = 'H' and TBRFLAG ='P' ";
+                        cmd2.CommandText = "select TBRDSIN, TBRSBCH,TBRACN1,TBRERCO,TBRERDS from TBRPF where  tbrpost = 'Y' and tbrtype = 'H' and TBRFLAG ='P' "; //
                         cmd2.CommandTimeout = 0;
                         iDB2Command cmd3 = iConn.CreateCommand();
 
                         string sqlText = "select  t1.TBRERCO as TBRERCO ,t1.TBRERDS as TBRERDS,t1.TBRDSIN as TBRDSIN , t1.TBRBRCO as TBRBRCO, t1.TBRDATE as TBRDATE, t1.TBRPODT as TBRPODT , t1.TBRREFN as TBRREFN , t1.TBRACN1 as TBRACN1 , t1.TBRAMNT as TBRAMNT , t1.TBRDSC1  as TBRDSC1 , t1.TBRDBC1 as TBRDBC1 , t2.JERERCO as JERERCO , t2.JERDESC as JERDESC , t2.JERLEVL as  JERLEVL, t2.JERUSLV as JERUSLV  from TBRPF t1 ";
                         sqlText += "inner join winatstmp.JERRPF t2 on t1.TBRUSIN = t2.JERUSER and t1.TBRDSIN = t2.JERDISP and t1.TBRDTIN = t2.JERDATE and t1.TBRTMIN = t2.JERTIME  and t1.TBRBRCO = t2.JERBRCO ";
-                        sqlText += "where t1.tbrtype <> 'H' and tbrpost = 'Y' and tbrflag ='3'";
+                        sqlText += "where t1.tbrtype <> 'H' and tbrpost = 'Y' and tbrflag ='3' and JERLEVL = '0'";
 
                         cmd3.CommandText = sqlText;
                         cmd3.CommandTimeout = 0;
@@ -2357,12 +2362,12 @@ namespace UploadGL
             }
         }
 
-        public static void SummaryReportSuksesUpload(string namafile, DateTime jammulai, DateTime jamselesai, string noBatch, string prosesFlag)
+        public static void SummaryReportSuksesUpload(string namafile, DateTime jammulai, DateTime jamselesai, string noBatch, string prosesFlag, bool isEODFile)
         {
             string conString = ConnectionHelper.GetStringConnection();
             string DirSukses = System.Web.Hosting.HostingEnvironment.MapPath("~/FileSukses/");
             string DirGagal = System.Web.Hosting.HostingEnvironment.MapPath("~/FileGagal/");
-            string fileUpload = System.Web.Hosting.HostingEnvironment.MapPath("~/FileIntraday/");
+            string fileUpload = isEODFile ? System.Web.Hosting.HostingEnvironment.MapPath("~/FileEOD/") : System.Web.Hosting.HostingEnvironment.MapPath("~/FileIntraday/");
 
             namafile = Path.GetFileNameWithoutExtension(namafile);
 
@@ -2543,7 +2548,7 @@ namespace UploadGL
                     writer.WriteLine("+--------------------------------------------------------------------------------------------------------+");
                     writer.WriteLine("|                    |                  Debit                  |                  Kredit                 |");
                     writer.WriteLine("| Jenis Posting      +--------------------+--------------------+--------------------+--------------------+");
-                    writer.WriteLine("|                    |Total Item          |Amont               |Total Iteam         |Amount              |");
+                    writer.WriteLine("|                    |Total Item          |Amont               |Total Item         |Amount              |");
                     writer.WriteLine("+--------------------+--------------------+--------------------+--------------------+--------------------+");
                     writer.WriteLine("|1. Berhasil         |" + value1.PadLeft(20, ' ') + "|" + value2.PadLeft(20, ' ') + "|" + value3.PadLeft(20, ' ') + "|" + value4.PadLeft(20, ' ') + "|");
                     writer.WriteLine("|2. Penampungan      |" + value5.PadLeft(20, ' ') + "|" + value6.PadLeft(20, ' ') + "|" + value7.PadLeft(20, ' ') + "|" + value8.PadLeft(20, ' ') + "|");
@@ -2580,7 +2585,5 @@ namespace UploadGL
                 throw new InvalidOperationException(ex.ToString());
             }
         }
-
-
     }
 }
