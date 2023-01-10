@@ -12,7 +12,7 @@
 @*@Html.AntiForgeryToken()*@
 @*<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>*@
 
-@*<script type="text/javascript" src="@Url.Content("/Scripts/jquery.1.9.1.min.js")"></script>*@
+<script type="text/javascript" src="@Url.Content("/Scripts/jquery.1.9.1.min.js")"></script>
 @Html.ActionLink("( Back to Console )", "Index", "Home")
 
 @using (Html.BeginForm("SaveSetting", "ScheduleTask", FormMethod.Post))
@@ -38,7 +38,7 @@
                     <i class="fa fa-sync"></i>
                     <span>Save Setting</span>
                 </button>
-                
+
             </td>
         </tr>
         <tr>
@@ -64,11 +64,11 @@
     </p>
 }
 @*
-        <script src="~/Scripts/jquery-2.1.4.intellisense.js"></script>
-        <script src="~/Scripts/jquery-2.1.4.min.js"></script>
-        <script src="~/Scripts/jquery.validate.min.js"></script>
-        <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
-        <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>*@
+    <script src="~/Scripts/jquery-2.1.4.intellisense.js"></script>
+    <script src="~/Scripts/jquery-2.1.4.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>*@
 
 <script type="text/javascript">
 
@@ -80,7 +80,7 @@
 			$.ajax({
 				cache: false,
 				type: 'POST',
-				url: '@Url.Action("FutureSchedules")',
+                url: '@Url.Action("FutureSchedules", "ScheduleTask")',
                 data: { expression: input },
 				success: function (data) {
 					$('#future-schedules').html(data);
@@ -98,7 +98,7 @@
 			$.ajax({
 				cache: false,
 				type: 'POST',
-				url: '@Url.Action("SaveSetting")',
+                url: '@Url.Action("SaveSetting", "ScheduleTask")',
                 data: { expression: input },
 				success: function (data) {
 					$('#future-schedules').html(data);
