@@ -76,9 +76,8 @@ namespace UploadGL.Controllers
         }
         public static string GetSchedule()
         {
-            StreamReader sr = new StreamReader(System.Web.Hosting.HostingEnvironment.MapPath("~/App_Data/Schedule.json"));
-            var jadwal = JsonConvert.DeserializeObject<ScheduleModel>(sr.ReadToEnd());
-            sr.Close();
+            string setting = System.Web.Hosting.HostingEnvironment.MapPath("~/App_Data/");
+            ScheduleModel jadwal = JsonConvert.DeserializeObject<ScheduleModel>(System.IO.File.ReadAllText(setting + "Schedule.json"));
 
             if (jadwal.Jadwal == null)
             {

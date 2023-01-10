@@ -17,7 +17,7 @@ namespace UploadGL
         {
             AreaRegistration.RegisterAllAreas();
             RouteConfig.RegisterRoutes(RouteTable.Routes);
-            //BundleConfig.RegisterBundles(BundleTable.Bundles);
+            BundleConfig.RegisterBundles(BundleTable.Bundles);
             GlobalJobFilters.Filters.Add(new AutomaticRetryAttribute { Attempts = 0 });
             LogProvider.SetCurrentLogProvider(null);
             log4net.Config.XmlConfigurator.Configure();
