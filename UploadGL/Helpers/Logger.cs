@@ -8,7 +8,6 @@ namespace UploadGL.Helpers
 {
     public class Logger
     {
-        private const string FILE_EXT = ".log";
         private readonly string datetimeFormat;
         private readonly string logFilename;
 
@@ -17,9 +16,9 @@ namespace UploadGL.Helpers
         /// If log file does not exist, it will be created automatically.
         /// </summary>
         public Logger()
-        {
+        {            
             datetimeFormat = "yyyy-MM-dd HH:mm:ss.fff";
-            logFilename = System.Reflection.Assembly.GetExecutingAssembly().GetName().Name + FILE_EXT;
+            logFilename = System.Web.Hosting.HostingEnvironment.MapPath("~/App_Data/UploadLog.log"); //System.Reflection.Assembly.GetExecutingAssembly().GetName().Name + FILE_EXT;
 
             // Log file header line
             string logHeader = logFilename + " created";
@@ -28,7 +27,7 @@ namespace UploadGL.Helpers
                 WriteLine(DateTime.Now.ToString(datetimeFormat) + " " + logHeader, false);
             }
         }
-
+                
         /// <summary>
         /// Log a DEBUG message
         /// </summary>

@@ -9,10 +9,27 @@
 
     <script src="~/Scripts/jquery-3.6.1.min.js"></script>
     <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <link href="~/Content/bootstrap-theme.min.css" rel="stylesheet">
+    <link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
     <script src="~/Scripts/notify.min.js"></script>
+    <style>
+        .navbar-dark .navbar-nav .nav-link {
+            color: #FFFFFF;
+        }
+        .navbar-dark .navbar-brand {
+            color: #FFFFFF;
+        }
+        .navbar-dark .navbar-toggler {
+            color: #FFFFFF;
+            border-color: #FFFFFF;
+        }
+    </style>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark fixed-top" style="background-color: #083854;">
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top" style="background-color: #FDAF27; ">
         <div class="container-fluid">
             @Html.ActionLink("UploadGL", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             <button class="navbar-toggler navbar-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -33,9 +50,6 @@
                         @Html.ActionLink("Parameter", "List", "Parameter", new { area = "" }, new { @class = "nav-link" })
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="@Url.Content("~/hangfire")" target="_blank">Scheduler Dashboard</a>
-                    </li>
-                    <li class="nav-item">
                         @Html.ActionLink("Sign Out", "Logout", "Account", new { area = "" }, new { @class = "nav-link" })
                     </li>
                 </ul>
@@ -54,7 +68,7 @@
         <br />
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - Upload Data GL - Version @MainProcess.GetVersion() - PT. WARNA BINTANG KREASI</p>
+            <p>&copy; @DateTime.Now.Year - Upload Data GL Guava - Version @MainProcess.GetVersion() - PT. WARNA BINTANG KREASI</p>
         </footer>
     </div>
     <script>
